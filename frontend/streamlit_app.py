@@ -129,7 +129,7 @@ if prompt:
                             """
                         )
 
-                else:
+                elif recommendations == []:
 
                     st.warning(
                         "No recommendations available."

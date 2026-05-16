@@ -1,150 +1,125 @@
 # SHL AI Assessment Recommendation System
 
-> AI-powered conversational recommendation engine for recommending SHL assessments using semantic retrieval, vector search, and conversational refinement workflows.
+An AI-powered conversational recommendation engine built for the SHL Research Intern – AI Application assignment.
+
+This system helps recruiters and hiring teams discover relevant SHL assessments through natural language conversations using semantic retrieval, vector embeddings, FAISS similarity search, and conversational clarification workflows.
 
 ---
 
-# Overview
-
-This project was built as part of the **SHL Research Intern – AI Application Assignment**.
-
-The system helps recruiters and hiring managers discover the most relevant SHL assessments using natural language conversations.
-
-Instead of keyword matching, the system uses:
-
-- Semantic Retrieval
-- Vector Embeddings
-- FAISS Similarity Search
-- Conversational Recommendation Logic
-
-to generate grounded assessment recommendations.
-
----
-
-# Key Features
-
-| Feature | Description |
-|---|---|
-| Conversational Recommendations | Supports natural language hiring queries |
-| Semantic Search | Uses embeddings instead of keyword-only matching |
-| RAG-style Retrieval | Retrieves grounded SHL catalog recommendations |
-| FAISS Vector Search | Efficient similarity-based retrieval |
-| Clarification Questions | Asks follow-up questions when requirements are ambiguous |
-| Refinement Support | Supports iterative recommendation refinement |
-| Legal Refusal Handling | Avoids giving legal/compliance advice |
-| OpenAPI Documentation | Auto-generated Swagger API docs |
-| FastAPI Backend | Production-ready Python API framework |
-
----
-
-# System Architecture
+# Architecture + Tech Stack
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│                        USER QUERY                      │
-│      Example: "Hiring senior Java backend engineer"   │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────┐
-│                 FASTAPI BACKEND API                    │
-│                                                         │
-│  Tech Used:                                             │
-│  - FastAPI                                              │
-│  - Python                                               │
-│  - Pydantic                                             │
-│  - OpenAPI / Swagger                                    │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────┐
-│              CONVERSATION LOGIC LAYER                  │
-│                                                         │
-│  Responsibilities:                                      │
-│  - Clarification Questions                              │
-│  - Recommendation Refinement                            │
-│  - Legal Refusal Handling                               │
-│  - End-of-Conversation Detection                        │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────┐
-│           SENTENCE TRANSFORMER MODEL                   │
-│                                                         │
-│  Model Used:                                            │
-│  - all-MiniLM-L6-v2                                     │
-│                                                         │
-│  Purpose:                                               │
-│  - Convert queries into semantic embeddings             │
-│  - Understand contextual meaning                        │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────┐
-│                 FAISS VECTOR SEARCH                    │
-│                                                         │
-│  Tech Used:                                             │
-│  - FAISS                                                │
-│                                                         │
-│  Purpose:                                               │
-│  - Fast similarity search                               │
-│  - Semantic retrieval                                   │
-│  - Vector ranking                                       │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────┐
-│              SHL ASSESSMENT CATALOG                    │
-│                                                         │
-│  Storage Used:                                          │
-│  - JSON Catalog                                         │
-│                                                         │
-│  Contains:                                              │
-│  - Assessment Name                                      │
-│  - Description                                          │
-│  - Assessment Type                                      │
-│  - Product URL                                          │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────┐
-│            STRUCTURED RECOMMENDATIONS                  │
-│                                                         │
-│  Output Includes:                                       │
-│  - Relevant Assessments                                 │
-│  - SHL Product URLs                                     │
-│  - Test Types                                           │
-│  - Conversational Response                              │
-└─────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────┐
+│            Recruiter / HR User               │
+└──────────────────────┬────────────────────────┘
+                       │
+                       ▼
+┌───────────────────────────────────────────────┐
+│         Streamlit Conversational UI          │
+│                                               │
+│  Technology:                                  │
+│  • Streamlit                                  │
+│  • Python                                     │
+│                                               │
+│  Features:                                    │
+│  • Recruiter-Friendly Chat Experience         │
+│  • Multi-turn Conversations                   │
+│  • Assessment Recommendations                 │
+│  • Clickable SHL URLs                         │
+└──────────────────────┬────────────────────────┘
+                       │
+                       ▼
+┌───────────────────────────────────────────────┐
+│             FastAPI Backend API              │
+│                                               │
+│  Technology:                                  │
+│  • FastAPI                                    │
+│  • Python                                     │
+│  • Swagger / OpenAPI                          │
+│                                               │
+│  Features:                                    │
+│  • Conversational Routing                     │
+│  • Clarification Questions                    │
+│  • End-of-Conversation Detection              │
+│  • Legal/Compliance Refusal Handling          │
+└──────────────────────┬────────────────────────┘
+                       │
+                       ▼
+┌───────────────────────────────────────────────┐
+│         Semantic Retrieval Engine             │
+│                                               │
+│  Technology:                                  │
+│  • Sentence Transformers                      │
+│  • FAISS                                      │
+│  • NumPy                                      │
+│                                               │
+│  Features:                                    │
+│  • Vector Embeddings                          │
+│  • Semantic Similarity Search                 │
+│  • Assessment Ranking                         │
+│  • Retrieval-Augmented Workflow               │
+└──────────────────────┬────────────────────────┘
+                       │
+                       ▼
+┌───────────────────────────────────────────────┐
+│            SHL Assessment Catalog             │
+│                                               │
+│  Technology:                                  │
+│  • JSON-based Data Storage                    │
+│                                               │
+│  Data Stored:                                 │
+│  • Assessment Metadata                        │
+│  • Test Types                                 │
+│  • Product URLs                               │
+└───────────────────────────────────────────────┘
 ```
 
 ---
 
-# Tech Stack
+# Features
 
-| Layer | Technology Used |
-|---|---|
-| Backend Framework | FastAPI |
-| API Documentation | Swagger / OpenAPI |
-| Programming Language | Python |
-| Embedding Model | Sentence Transformers |
-| Semantic Model | all-MiniLM-L6-v2 |
-| Vector Database | FAISS |
-| Data Storage | JSON Catalog |
-| AI Pattern | Retrieval-Augmented Generation (RAG) |
-| Deployment Platform | Render |
-| Package Management | pip + virtualenv |
+- Conversational recruiter-style workflow
+- Semantic search using vector embeddings
+- FAISS vector similarity retrieval
+- Multi-turn conversation support
+- Clarification-based recommendation flow
+- Assessment refinement support
+- Legal/compliance refusal handling
+- End-of-conversation detection
+- Streamlit conversational frontend
+- FastAPI backend API
+- Swagger/OpenAPI documentation
+- Retrieval-Augmented Generation (RAG)-style architecture
+
+---
+
+# Example Capabilities
+
+The system can:
+
+- Recommend assessments for technical hiring
+- Suggest leadership and executive assessments
+- Handle graduate hiring workflows
+- Recommend contact center assessments
+- Support healthcare/admin hiring scenarios
+- Recommend industrial safety assessments
+- Ask recruiter clarification questions
+- Support iterative recommendation refinement
+- Handle legal/compliance refusal scenarios
 
 ---
 
 # Project Structure
 
 ```text
-shl-recommender/
+SHL-AI-Application/
 │
 ├── app/
 │   ├── main.py
 │   └── retrieval.py
+│
+├── frontend/
+│   └── streamlit_app.py
 │
 ├── data/
 │   ├── catalog.json
@@ -155,23 +130,137 @@ shl-recommender/
 │   └── build_embeddings.py
 │
 ├── requirements.txt
-├── README.md
-└── Procfile
+├── runtime.txt
+└── README.md
+```
+
+---
+
+# How It Works
+
+## 1. Assessment Catalog
+
+A curated SHL assessment catalog is stored in:
+
+```text
+catalog.json
+```
+
+Each assessment contains:
+- assessment name
+- description
+- assessment type
+- product URL
+
+---
+
+## 2. Embedding Generation
+
+Assessment descriptions are converted into dense vector embeddings using:
+
+```text
+all-MiniLM-L6-v2
+```
+
+from Sentence Transformers.
+
+---
+
+## 3. FAISS Vector Indexing
+
+Embeddings are stored inside a FAISS vector index for efficient semantic similarity retrieval.
+
+---
+
+## 4. Conversational Retrieval Workflow
+
+When recruiters submit hiring requirements:
+
+1. User query is embedded
+2. Semantic similarity search is performed
+3. Relevant assessments are retrieved
+4. Clarification logic refines recommendations
+5. Structured recommendations are returned
+
+---
+
+# Conversational Behaviors Implemented
+
+## Clarification Questions
+
+Examples:
+- leadership seniority clarification
+- language/accent clarification
+- graduate hiring clarification
+- healthcare bilingual clarification
+- industrial safety clarification
+
+---
+
+## Refinement Support
+
+Supports iterative refinement:
+- add/remove assessments
+- cognitive assessment refinement
+- situational judgement refinement
+- simulation-focused recommendations
+
+---
+
+## Legal/Compliance Refusal
+
+The assistant avoids providing:
+- legal advice
+- regulatory interpretation
+- compliance certification claims
+
+---
+
+## End-of-Conversation Detection
+
+The system detects completion phrases such as:
+- confirmed
+- perfect
+- thanks
+- looks good
+
+and marks:
+
+```json
+"end_of_conversation": true
 ```
 
 ---
 
 # API Endpoints
 
-| Endpoint | Method | Purpose |
-|---|---|---|
-| `/` | GET | Root API status |
-| `/health` | GET | Health check |
-| `/chat` | POST | Conversational recommendations |
+## Root Endpoint
+
+```http
+GET /
+```
+
+Returns API health message.
 
 ---
 
-# Example Request
+## Health Check
+
+```http
+GET /health
+```
+
+Returns service status.
+
+---
+
+## Chat Recommendation Endpoint
+
+```http
+POST /chat
+```
+
+### Example Request
 
 ```json
 {
@@ -184,9 +273,7 @@ shl-recommender/
 }
 ```
 
----
-
-# Example Response
+### Example Response
 
 ```json
 {
@@ -206,52 +293,58 @@ shl-recommender/
 
 # Installation
 
-## Clone Repository
+## 1. Clone Repository
 
 ```bash
-git clone <your-repo-url>
-cd shl-recommender
+git clone <repository-url>
+cd SHL-AI-Application
 ```
 
-## Create Virtual Environment
+---
+
+## 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### Windows
+### Activate
+
+#### Windows
 
 ```bash
 .\venv\Scripts\Activate.ps1
 ```
 
-### Linux/macOS
+#### Linux/macOS
 
 ```bash
 source venv/bin/activate
 ```
 
-## Install Dependencies
+---
+
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Build Embeddings
-
-```bash
-python scripts/build_embeddings.py
-```
-
-## Run Server
-
-```bash
-python -m uvicorn app.main:app
-```
-
 ---
 
-# Swagger API Documentation
+## 4. Run FastAPI Backend
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+Backend URL:
+
+```text
+http://127.0.0.1:8000
+```
+
+Swagger Docs:
 
 ```text
 http://127.0.0.1:8000/docs
@@ -259,24 +352,48 @@ http://127.0.0.1:8000/docs
 
 ---
 
+## 5. Run Streamlit Frontend
+
+```bash
+python -m streamlit run frontend/streamlit_app.py
+```
+
+Frontend URL:
+
+```text
+http://localhost:8501
+```
+
+---
+
 # Deployment
 
-Deployment-ready for:
+## Backend Deployment
+
+Recommended:
 - Render
 - Railway
 - Hugging Face Spaces
-- Docker-compatible cloud platforms
+
+---
+
+## Frontend Deployment
+
+Recommended:
+- Streamlit Cloud
 
 ---
 
 # Future Improvements
 
-- Multi-turn conversational memory
 - Hybrid BM25 + vector retrieval
-- Frontend chat interface
 - LLM-powered reasoning layer
 - Dynamic catalog scraping
-- Reranking pipelines
+- Advanced reranking pipeline
+- Persistent conversation memory
+- Authentication and recruiter accounts
+- Analytics dashboard
+- Feedback-based ranking optimization
 
 ---
 
@@ -284,4 +401,4 @@ Deployment-ready for:
 
 Purushotham S
 
-Built for the SHL Research Intern – AI Application Assignment.
+Built as part of the SHL Research Intern – AI Application assignment.

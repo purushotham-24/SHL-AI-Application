@@ -44,7 +44,13 @@ def health():
 @app.post("/chat")
 def chat(request: ChatRequest):
 
-    latest_message = request.messages[-1].content.lower()
+    # Use recent conversation context only
+    latest_message = " ".join(
+        [
+            msg.content.lower()
+            for msg in request.messages[-3:]
+        ]
+    )
 
     # ------------------------------------------------
     # END OF CONVERSATION DETECTION
@@ -69,6 +75,30 @@ def chat(request: ChatRequest):
         }
 
     # ------------------------------------------------
+    # LEGAL / COMPLIANCE REFUSAL
+    # ------------------------------------------------
+    legal_words = [
+        "legal",
+        "law",
+        "compliance",
+        "regulation",
+        "hipaa",
+        "mandatory"
+    ]
+
+    if any(word in latest_message for word in legal_words):
+
+        return {
+            "reply": (
+                "I can help recommend assessments, "
+                "but legal or compliance interpretation "
+                "should be reviewed with your legal team."
+            ),
+            "recommendations": None,
+            "end_of_conversation": False
+        }
+
+    # ------------------------------------------------
     # LEADERSHIP CLARIFICATION
     # ------------------------------------------------
     if (
@@ -87,6 +117,11 @@ def chat(request: ChatRequest):
                 "recommendations": None,
                 "end_of_conversation": False
             }
+
+        # Improve leadership retrieval
+        latest_message += (
+            " leadership executive personality cognitive"
+        )
 
     # ------------------------------------------------
     # CONTACT CENTER CLARIFICATION
@@ -135,7 +170,6 @@ def chat(request: ChatRequest):
     if (
         "healthcare" in latest_message
         or "medical" in latest_message
-        or "hipaa" in latest_message
     ):
 
         if (
@@ -166,30 +200,6 @@ def chat(request: ChatRequest):
                 "recommendations": None,
                 "end_of_conversation": False
             }
-
-    # ------------------------------------------------
-    # LEGAL / COMPLIANCE REFUSAL
-    # ------------------------------------------------
-    legal_words = [
-        "legal",
-        "law",
-        "compliance",
-        "regulation",
-        "hipaa requirement",
-        "mandatory"
-    ]
-
-    if any(word in latest_message for word in legal_words):
-
-        return {
-            "reply": (
-                "I can help recommend assessments, "
-                "but legal or compliance interpretation "
-                "should be reviewed with your legal team."
-            ),
-            "recommendations": None,
-            "end_of_conversation": False
-        }
 
     # ------------------------------------------------
     # SEMANTIC RETRIEVAL
