@@ -53,7 +53,7 @@ def chat(request: ChatRequest):
 
         if msg.role == "user":
 
-            latest_message = msg.content.lower()
+            latest_message = msg.content.lower().strip()
             break
 
     # ------------------------------------------------
@@ -67,7 +67,7 @@ def chat(request: ChatRequest):
         "good evening"
     ]
 
-    if latest_message.strip() in greetings:
+    if latest_message in greetings:
 
         return {
             "reply": (
@@ -157,6 +157,7 @@ def chat(request: ChatRequest):
         if (
             "15" not in latest_message
             and "senior" not in latest_message
+            and "executive" not in latest_message
         ):
 
             return {
@@ -169,7 +170,6 @@ def chat(request: ChatRequest):
                 "end_of_conversation": False
             }
 
-        # Improve leadership retrieval
         latest_message += (
             " leadership executive personality cognitive"
         )
@@ -272,6 +272,22 @@ def chat(request: ChatRequest):
     recommendations = search_assessments(
         latest_message
     )
+
+    # ------------------------------------------------
+    # NO RESULTS HANDLING
+    # ------------------------------------------------
+    if not recommendations:
+
+        return {
+            "reply": (
+                "I could not find highly relevant "
+                "assessments for that request. "
+                "Could you provide more details "
+                "about the role, skills, or hiring goals?"
+            ),
+            "recommendations": None,
+            "end_of_conversation": False
+        }
 
     # ------------------------------------------------
     # FINAL RESPONSE
