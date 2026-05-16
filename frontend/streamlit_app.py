@@ -2,8 +2,8 @@ import streamlit as st
 import requests
 import pandas as pd
 
-API_URL = "http://127.0.0.1:8000/chat"
-
+API_URL = "https://shl-ai-application.onrender.com/chat"
+ 
 # Page Configuration
 st.set_page_config(
     page_title="SHL AI Assessment Recommendation System",
