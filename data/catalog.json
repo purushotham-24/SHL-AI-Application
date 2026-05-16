@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Core Java (Advanced Level) (New)",
+    "url": "https://www.shl.com/products/product-catalog/view/core-java-advanced-level-new/",
+    "description": "Advanced Java programming assessment for backend engineering roles.",
+    "test_type": "K"
+  },
+  {
+    "name": "Spring (New)",
+    "url": "https://www.shl.com/products/product-catalog/view/spring-new/",
+    "description": "Measures Spring framework knowledge for enterprise backend applications.",
+    "test_type": "K"
+  },
+  {
+    "name": "SQL (New)",
+    "url": "https://www.shl.com/products/product-catalog/view/sql-new/",
+    "description": "Measures SQL and relational database knowledge.",
+    "test_type": "K"
+  },
+  {
+    "name": "Docker (New)",
+    "url": "https://www.shl.com/products/product-catalog/view/docker-new/",
+    "description": "Measures Docker and containerization skills.",
+    "test_type": "K"
+  },
+  {
+    "name": "Amazon Web Services (AWS) Development (New)",
+    "url": "https://www.shl.com/products/product-catalog/view/amazon-web-services-aws-development-new/",
+    "description": "Measures AWS cloud development skills.",
+    "test_type": "K"
+  },
+  {
+    "name": "SHL Verify Interactive G+",
+    "url": "https://www.shl.com/products/product-catalog/view/shl-verify-interactive-g/",
+    "description": "Measures cognitive ability including numerical, deductive, and inductive reasoning.",
+    "test_type": "A"
+  },
+  {
+    "name": "Occupational Personality Questionnaire OPQ32r",
+    "url": "https://www.shl.com/products/product-catalog/view/occupational-personality-questionnaire-opq32r/",
+    "description": "Measures workplace personality and leadership behavior.",
+    "test_type": "P"
+  }
+]
