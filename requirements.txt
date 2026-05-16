@@ -1,7 +1,7 @@
-fastapi
-uvicorn
-sentence-transformers
-faiss-cpu
-numpy
-pydantic
-scikit-learn
+fastapi==0.115.0
+uvicorn==0.30.6
+faiss-cpu==1.8.0.post1
+numpy==1.26.4
+scikit-learn==1.5.2
+sentence-transformers==2.7.0
+torch==2.2.2
