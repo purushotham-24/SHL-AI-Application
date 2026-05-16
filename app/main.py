@@ -44,13 +44,60 @@ def health():
 @app.post("/chat")
 def chat(request: ChatRequest):
 
-    # Use recent conversation context only
-    latest_message = " ".join(
-        [
-            msg.content.lower()
-            for msg in request.messages[-3:]
-        ]
-    )
+    # ------------------------------------------------
+    # GET LATEST USER MESSAGE ONLY
+    # ------------------------------------------------
+    latest_message = ""
+
+    for msg in reversed(request.messages):
+
+        if msg.role == "user":
+
+            latest_message = msg.content.lower()
+            break
+
+    # ------------------------------------------------
+    # GREETING HANDLER
+    # ------------------------------------------------
+    greetings = [
+        "hi",
+        "hello",
+        "hey",
+        "good morning",
+        "good evening"
+    ]
+
+    if latest_message.strip() in greetings:
+
+        return {
+            "reply": (
+                "Hello! Please describe the hiring role "
+                "or assessment requirements, and I will "
+                "recommend relevant SHL assessments."
+            ),
+            "recommendations": None,
+            "end_of_conversation": False
+        }
+
+    # ------------------------------------------------
+    # RESET CONVERSATION
+    # ------------------------------------------------
+    reset_words = [
+        "start over",
+        "new hiring request",
+        "reset"
+    ]
+
+    if any(word in latest_message for word in reset_words):
+
+        return {
+            "reply": (
+                "Conversation reset successfully. "
+                "Please describe the new hiring requirement."
+            ),
+            "recommendations": None,
+            "end_of_conversation": False
+        }
 
     # ------------------------------------------------
     # END OF CONVERSATION DETECTION
@@ -113,7 +160,11 @@ def chat(request: ChatRequest):
         ):
 
             return {
-                "reply": "What seniority level are these candidates?",
+                "reply": (
+                    "Could you share the seniority level "
+                    "or experience range for these "
+                    "leadership candidates?"
+                ),
                 "recommendations": None,
                 "end_of_conversation": False
             }
@@ -139,7 +190,10 @@ def chat(request: ChatRequest):
         ):
 
             return {
-                "reply": "What language or accent will the calls use?",
+                "reply": (
+                    "What language or accent will "
+                    "the customer interactions use?"
+                ),
                 "recommendations": None,
                 "end_of_conversation": False
             }
@@ -159,7 +213,11 @@ def chat(request: ChatRequest):
         ):
 
             return {
-                "reply": "Would you also like cognitive or situational judgement assessments included?",
+                "reply": (
+                    "Would you like the recommendations "
+                    "to include cognitive or situational "
+                    "judgement assessments as well?"
+                ),
                 "recommendations": None,
                 "end_of_conversation": False
             }
@@ -179,7 +237,10 @@ def chat(request: ChatRequest):
         ):
 
             return {
-                "reply": "Are candidates expected to be bilingual or English-only?",
+                "reply": (
+                    "Are candidates expected to be "
+                    "bilingual or English-only?"
+                ),
                 "recommendations": None,
                 "end_of_conversation": False
             }
@@ -196,7 +257,11 @@ def chat(request: ChatRequest):
         if "industrial" not in latest_message:
 
             return {
-                "reply": "Is this for a general environment or industrial facility?",
+                "reply": (
+                    "Is this hiring requirement for "
+                    "a general environment or an "
+                    "industrial facility?"
+                ),
                 "recommendations": None,
                 "end_of_conversation": False
             }
@@ -208,10 +273,15 @@ def chat(request: ChatRequest):
         latest_message
     )
 
+    # ------------------------------------------------
+    # FINAL RESPONSE
+    # ------------------------------------------------
     return {
         "reply": (
-            f"Found {len(recommendations)} relevant "
-            f"assessments based on the role requirements."
+            f"Based on the hiring requirements, "
+            f"I found {len(recommendations)} relevant "
+            f"SHL assessments for evaluating "
+            f"candidate fit."
         ),
         "recommendations": recommendations,
         "end_of_conversation": False
